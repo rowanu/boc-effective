@@ -1,17 +1,19 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <Document input="" />
+    <Document />
+    <Instructions />
   </div>
 </template>
 
 <script>
 import Document from './components/Document.vue'
+import Instructions from './components/Instructions.vue'
 
 export default {
   name: 'app',
   components: {
     Document,
+    Instructions,
   },
 }
 </script>

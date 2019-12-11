@@ -1,5 +1,6 @@
 <template>
-  <div class="document">
+  <div id="document">
+    <h1>Document</h1>
     <textarea v-model="input"></textarea>
   </div>
 </template>
@@ -14,6 +15,7 @@ export default {
   created() {
     this.$emit('isEmpty', true)
   },
+  // TODO: Debounce on input https://vuejs.org/v2/examples/index.html
 }
 </script>
 
