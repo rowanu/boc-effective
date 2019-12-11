@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Document />
+    <Error v-if="error" />
     <Instructions />
   </div>
 </template>
@@ -11,6 +12,11 @@ import Instructions from './components/Instructions.vue'
 
 export default {
   name: 'app',
+  data() {
+    return {
+      error: '',
+    }
+  },
   components: {
     Document,
     Instructions,

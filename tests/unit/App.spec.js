@@ -1,19 +1,27 @@
+// import Vue from 'vue'
 import { shallowMount } from '@vue/test-utils'
 import App from '@/App.vue'
 
 describe('App', () => {
   it('shows a Document', async () => {
     const wrapper = shallowMount(App, {
-      stubs: { Document: '<div id="document"></div>' },
+      stubs: { Document: true },
     })
-    expect(wrapper.find('#document').exists()).toEqual(true)
+    expect(wrapper.find('document-stub').exists()).toEqual(true)
   })
 
-  it('shows Instructions when Document is empty', async () => {
+  it('shows Instructions when Document by default', async () => {
     const wrapper = shallowMount(App, {
-      stubs: { Instructions: '<div id="instructions"></div>' },
+      stubs: { Instructions: true },
     })
-    // TODO: Vue.nextTick will? be required due to state change propagation
-    expect(wrapper.find('#instructions').exists()).toEqual(true)
+    expect(wrapper.find('instructions-stub').exists()).toEqual(true)
+  })
+
+  it('shows Error when there is an error', async () => {
+    const wrapper = shallowMount(App, {
+      stubs: { Error: true },
+    })
+    wrapper.setData({ error: 'An error' })
+    expect(wrapper.find('error-stub').exists()).toEqual(true)
   })
 })
