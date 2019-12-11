@@ -2,24 +2,28 @@
   <div id="app">
     <Document />
     <Error v-if="error" />
-    <Instructions />
+    <Instructions v-if="!report" />
+    <Report v-if="report && !error" />
   </div>
 </template>
 
 <script>
 import Document from './components/Document.vue'
 import Instructions from './components/Instructions.vue'
+import Report from './components/Report.vue'
 
 export default {
   name: 'app',
   data() {
     return {
       error: '',
+      report: null,
     }
   },
   components: {
     Document,
     Instructions,
+    Report,
   },
 }
 </script>
