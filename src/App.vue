@@ -2,8 +2,8 @@
   <div id="app">
     <Document />
     <Error v-if="error" />
-    <Instructions v-if="!report" />
-    <Report v-if="report && !error" />
+    <Report v-if="report.actions" />
+    <Instructions v-else />
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       error: '',
-      report: null,
+      report: {},
     }
   },
   components: {

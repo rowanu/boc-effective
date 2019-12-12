@@ -10,7 +10,7 @@ describe('App', () => {
     expect(wrapper.contains('document-stub')).toEqual(true)
   })
 
-  it('shows Instructions when Document by default', async () => {
+  it('shows Instructions by default', async () => {
     const wrapper = shallowMount(App, {
       stubs: { Instructions: true },
     })

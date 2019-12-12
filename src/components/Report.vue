@@ -1,7 +1,7 @@
 <template>
   <div id="report">
     <h1>Report</h1>
-    <div v-for="action in actions" v-bind:key="action" class="action">
+    <div v-for="action in actions" :key="action" class="action">
       {{ action }}
     </div>
   </div>
