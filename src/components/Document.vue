@@ -13,17 +13,14 @@ export default {
       input: '',
     }
   },
-  created() {
-    // TODO: Do this in update lifecycle? Does it get run on create?
-    this.$emit('isEmpty', true)
-  },
   computed: {
     isValid: function() {
       try {
         const result = JSON.parse(this.input)
-        // TODO: Emit JSON
+        this.$emit('input', result)
       } catch (e) {
         if (e instanceof SyntaxError) {
+          // e.name
           this.$emit('error', e.message)
           return false
         }
