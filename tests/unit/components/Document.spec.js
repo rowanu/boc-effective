@@ -42,4 +42,9 @@ describe('Document', () => {
     await Vue.nextTick()
     expect(wrapper.find('textarea').classes()).toEqual(['error'])
   })
+
+  it('allows a blank input to be valid', async () => {
+    const wrapper = shallowMount(Document)
+    expect(wrapper.vm.isValid).toEqual(true)
+  })
 })

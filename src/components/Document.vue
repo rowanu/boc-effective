@@ -16,7 +16,7 @@ export default {
   name: 'Document',
   data() {
     return {
-      isValid: false,
+      isValid: true,
       input: '',
       result: {},
     }
@@ -24,8 +24,10 @@ export default {
   watch: {
     input: function() {
       try {
-        const result = JSON.parse(this.input)
-        this.$emit('input', result)
+        if (this.input !== '') {
+          const result = JSON.parse(this.input)
+          this.$emit('input', result)
+        }
         this.isValid = true
         return
       } catch (e) {
@@ -44,9 +46,8 @@ export default {
 }
 </script>
 
-<!-- https://vuejs.org/v2/guide/class-and-style.html -->
 <style scoped>
 .error {
-  border-color: red;
+  border: 0.2rem dotted red;
 }
 </style>
