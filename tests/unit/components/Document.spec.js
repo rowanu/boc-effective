@@ -14,6 +14,7 @@ describe('Document', () => {
   it('allows valid JSON', async () => {
     const wrapper = shallowMount(Document)
     wrapper.setData({ input: '{}' })
+    await Vue.nextTick()
     expect(wrapper.vm.isValid).toEqual(true)
   })
 
@@ -33,5 +34,12 @@ describe('Document', () => {
     expect(wrapper.vm.isValid).toEqual(true)
     expect(wrapper.emitted().error).toEqual(undefined)
     expect(wrapper.emitted().input[0]).toEqual([input])
+  })
+
+  it('set error style', async () => {
+    const wrapper = shallowMount(Document)
+    wrapper.setData({ input: 'OHAI' })
+    await Vue.nextTick()
+    expect(wrapper.find('textarea').classes()).toEqual(['error'])
   })
 })
