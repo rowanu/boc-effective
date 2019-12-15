@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <JSONInput />
+    <PolicyInput />
     <Error v-if="error" />
     <Report v-if="report.actions" />
     <Instructions v-else />
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import JSONInput from './components/JSONInput.vue'
+import PolicyInput from './components/PolicyInput.vue'
 import Instructions from './components/Instructions.vue'
 import Report from './components/Report.vue'
 
@@ -21,7 +21,7 @@ export default {
     }
   },
   components: {
-    JSONInput,
+    PolicyInput,
     Instructions,
     Report,
   },

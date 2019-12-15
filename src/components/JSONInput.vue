@@ -1,5 +1,5 @@
 <template>
-  <div id="document">
+  <div id="json-input">
     <h1>Document</h1>
     <textarea
       :value="input"

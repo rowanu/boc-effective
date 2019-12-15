@@ -3,11 +3,11 @@ import { shallowMount } from '@vue/test-utils'
 import App from '@/App.vue'
 
 describe('App', () => {
-  it('shows a JSONInput', async () => {
+  it('shows a PolicyInput by default', async () => {
     const wrapper = shallowMount(App, {
-      stubs: { JSONInput: true },
+      stubs: { PolicyInput: true },
     })
-    expect(wrapper.contains('jsoninput-stub')).toEqual(true)
+    expect(wrapper.contains('policyinput-stub')).toEqual(true)
   })
 
   it('shows Instructions by default', async () => {
