@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Document />
+    <JSONInput />
     <Error v-if="error" />
     <Report v-if="report.actions" />
     <Instructions v-else />
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Document from './components/Document.vue'
+import JSONInput from './components/JSONInput.vue'
 import Instructions from './components/Instructions.vue'
 import Report from './components/Report.vue'
 
@@ -21,7 +21,7 @@ export default {
     }
   },
   components: {
-    Document,
+    JSONInput,
     Instructions,
     Report,
   },
