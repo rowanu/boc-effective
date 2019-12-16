@@ -1,7 +1,10 @@
 <template>
   <div id="policy-input">
     <h1>Policy</h1>
-    <JSONInput @error="emitError" />
+    <div v-if="error" class="error">
+      {{ error }}
+    </div>
+    <JSONInput @error="setError" />
   </div>
 </template>
 
@@ -9,12 +12,18 @@
 import JSONInput from './JSONInput.vue'
 
 export default {
+  data() {
+    return {
+      error: '',
+    }
+  },
   components: {
     JSONInput,
   },
+  // TODO: Reset error when valid JSON received
   methods: {
-    emitError(e) {
-      this.$emit('error', e)
+    setError(error) {
+      this.error = error
     },
   },
 }

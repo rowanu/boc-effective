@@ -1,14 +1,12 @@
 <template>
   <div id="app">
-    <PolicyInput @error="setError" />
-    <Error v-if="error" :message="error" />
+    <PolicyInput />
     <Report v-if="report.actions" />
     <Instructions v-else />
   </div>
 </template>
 
 <script>
-import Error from './components/Error.vue'
 import Instructions from './components/Instructions.vue'
 import PolicyInput from './components/PolicyInput.vue'
 import Report from './components/Report.vue'
@@ -17,20 +15,13 @@ export default {
   name: 'app',
   data() {
     return {
-      error: '',
       report: {},
     }
   },
   components: {
-    Error,
     Instructions,
     PolicyInput,
     Report,
-  },
-  methods: {
-    setError(error) {
-      this.error = error
-    },
   },
 }
 </script>

@@ -1,6 +1,5 @@
 <template>
   <div id="json-input">
-    <h1>Input</h1>
     <textarea
       :value="input"
       @input="update"
