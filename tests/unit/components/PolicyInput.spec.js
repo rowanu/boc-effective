@@ -29,4 +29,13 @@ describe('PolicyInput', () => {
     await Vue.nextTick()
     expect(wrapper.find('.error').text()).toEqual(error)
   })
+
+  it('clear an error when valid input is emitted', async () => {
+    const error = 'Oh noes'
+    const input = { example: 'policy' }
+    const wrapper = shallowMount(PolicyInput)
+    wrapper.setData({ error })
+    wrapper.find('jsoninput-stub').vm.$emit('input', input)
+    expect(wrapper.find('.error').exists()).toBe(false)
+  })
 })

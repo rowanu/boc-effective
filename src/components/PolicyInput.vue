@@ -4,7 +4,7 @@
     <div v-if="error" class="error">
       {{ error }}
     </div>
-    <JSONInput @error="setError" />
+    <JSONInput @error="setError" @input="setInput" />
   </div>
 </template>
 
@@ -15,15 +15,19 @@ export default {
   data() {
     return {
       error: '',
+      input: null,
     }
   },
   components: {
     JSONInput,
   },
-  // TODO: Reset error when valid JSON received
   methods: {
     setError(error) {
       this.error = error
+    },
+    setInput(input) {
+      this.input = input
+      this.error = ''
     },
   },
 }
