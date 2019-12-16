@@ -37,4 +37,14 @@ describe('App', () => {
     expect(wrapper.contains('report-stub')).toEqual(true)
     expect(wrapper.contains('instructions-stub')).toEqual(false)
   })
+
+  it('passes errors to the Error component', async () => {
+    const wrapper = shallowMount(App, {
+      stubs: { Error: true },
+    })
+    const error = 'it broke'
+    wrapper.setData({ error })
+    await Vue.nextTick()
+    expect(wrapper.find('error-stub').attributes().message).toEqual(error)
+  })
 })

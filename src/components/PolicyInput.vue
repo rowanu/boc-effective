@@ -1,7 +1,7 @@
 <template>
   <div id="policy-input">
     <h1>Policy</h1>
-    <JSONInput />
+    <JSONInput @error="emitError" />
   </div>
 </template>
 
@@ -11,6 +11,11 @@ import JSONInput from './JSONInput.vue'
 export default {
   components: {
     JSONInput,
+  },
+  methods: {
+    emitError(e) {
+      this.$emit('error', e)
+    },
   },
 }
 </script>

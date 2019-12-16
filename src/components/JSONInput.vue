@@ -1,6 +1,6 @@
 <template>
   <div id="json-input">
-    <h1>Document</h1>
+    <h1>Input</h1>
     <textarea
       :value="input"
       @input="update"
@@ -13,7 +13,7 @@
 import { debounce } from 'lodash'
 
 export default {
-  name: 'Document',
+  name: 'JSONInput',
   data() {
     return {
       isValid: true,

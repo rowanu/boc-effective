@@ -32,3 +32,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## References
+
+* https://awspolicygen.s3.amazonaws.com/js/policies.js
