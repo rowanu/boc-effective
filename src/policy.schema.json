@@ -12,8 +12,32 @@
     "Statement": {
       "description": "Policy statements",
       "type": "array",
-      "items": { "type": "object" }
+      "items": { "$ref": "#/definitions/statement" }
     }
   },
-  "required": ["Statement"]
+  "required": ["Statement"],
+  "definitions": {
+    "statement": {
+      "type": "object",
+      "properties": {
+        "Action": {
+          "type": [ "string", "array" ],
+          "items": [
+            { "type": "string" }
+          ]
+        },
+        "Effect": {
+          "type": "string",
+          "enum": ["Allow", "Deny"]
+        },
+        "Resource": {
+          "type": [ "string", "array" ],
+          "items": [
+            { "type": "string" }
+          ]
+        }
+      },
+      "required": ["Action", "Effect", "Resource"]
+    }
+  }
 }
