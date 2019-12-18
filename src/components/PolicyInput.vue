@@ -25,8 +25,8 @@ export default {
     setError(error) {
       this.error = error
     },
-    setInput(input) {
-      this.input = input
+    setInput() {
+      // TODO: Validate input
       this.error = ''
     },
   },

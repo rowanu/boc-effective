@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://effective.bigorange.cloud/policy.schema.json",
+  "title": "Policy",
+  "description": "An AWS IAM Policy",
+  "type": "object",
+  "properties": {
+    "Version": {
+      "description": "IAM Policy language version",
+      "type": "string"
+    },
+    "Statement": {
+      "description": "Policy statements",
+      "type": "array",
+      "items": { "$ref": "#/definitions/statement" }
+    }
+  },
+  "required": ["Statement"],
+  "definitions": {
+    "statement": {
+      "type": "object",
+      "properties": {
+        "Action": {
+          "type": [ "string", "array" ],
+          "items": [
+            { "type": "string" }
+          ]
+        },
+        "Effect": {
+          "type": "string",
+          "enum": ["Allow", "Deny"]
+        },
+        "Resource": {
+          "type": [ "string", "array" ],
+          "items": [
+            { "type": "string" }
+          ]
+        }
+      },
+      "required": ["Action", "Effect", "Resource"]
+    }
+  }
+}
