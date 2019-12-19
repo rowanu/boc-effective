@@ -1,20 +1,23 @@
 <template>
   <div id="policy-input">
     <h1>Policy</h1>
-    <div v-if="error" class="error">
-      {{ error }}
+    <div v-if="errors.length > 0" class="error">
+      <div v-for="(error, index) in errors" :key="index">
+        {{ error }}
+      </div>
     </div>
-    <JSONInput @error="setError" @input="setInput" />
+    <JSONInput @error="setJSONError" @input="setInput" />
   </div>
 </template>
 
 <script>
+import effective from '@/effective.js'
 import JSONInput from './JSONInput.vue'
 
 export default {
   data() {
     return {
-      error: '',
+      errors: [],
       input: null,
     }
   },
@@ -22,12 +25,16 @@ export default {
     JSONInput,
   },
   methods: {
-    setError(error) {
-      this.error = error
+    setJSONError(error) {
+      this.errors = [error]
     },
-    setInput() {
-      // TODO: Validate input
-      this.error = ''
+    setInput(input) {
+      const policy = effective(input)
+      if (!policy.isValid) {
+        this.errors = policy.errors
+      } else {
+        this.errors = []
+      }
     },
   },
 }

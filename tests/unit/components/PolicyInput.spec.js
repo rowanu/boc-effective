@@ -15,11 +15,11 @@ describe('PolicyInput', () => {
     expect(wrapper.find('.error').exists()).toBe(false)
   })
 
-  it('shows an error', async () => {
-    const error = 'Oh noes'
+  it('shows errors', async () => {
+    const errors = ['Oh noes']
     const wrapper = shallowMount(PolicyInput)
-    wrapper.setData({ error })
-    expect(wrapper.find('.error').text()).toEqual(error)
+    wrapper.setData({ errors })
+    expect(wrapper.find('.error').text()).toEqual(errors[0])
   })
 
   it('shows an error from child', async () => {
@@ -31,11 +31,27 @@ describe('PolicyInput', () => {
   })
 
   it('clear an error when valid input is emitted', async () => {
-    const error = 'Oh noes'
-    const input = { example: 'policy' }
+    const errors = ['Oh noes']
+    const input = {
+      Version: '2012-10-17',
+      Statement: [{ Effect: 'Allow', Action: '*', Resource: '*' }],
+    }
     const wrapper = shallowMount(PolicyInput)
-    wrapper.setData({ error })
+    wrapper.setData({ errors })
     wrapper.find('jsoninput-stub').vm.$emit('input', input)
     expect(wrapper.find('.error').exists()).toBe(false)
+  })
+
+  it('shows a policy error', async () => {
+    const errors = ['Oh noes']
+    const input = {
+      Version: '2012-10-17',
+    }
+    const wrapper = shallowMount(PolicyInput)
+    wrapper.setData({ errors })
+    wrapper.find('jsoninput-stub').vm.$emit('input', input)
+    expect(wrapper.find('.error').text()).toEqual(
+      "should have required property 'Statement'"
+    )
   })
 })
