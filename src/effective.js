@@ -7,8 +7,9 @@ const validate = ajv.compile(schema)
 export default function(input) {
   const isValid = validate(input)
   return {
-    // TODO: errors
     isValid,
-    errors: validate.errors && validate.errors.map(e => e.message),
+    errors:
+      validate.errors &&
+      validate.errors.map(e => `${e.dataPath} ${e.message}`.trim()),
   }
 }
