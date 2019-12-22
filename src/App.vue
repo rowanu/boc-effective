@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <PolicyInput />
-    <Report v-if="report.actions" />
+    <Report v-if="report" />
     <Instructions v-else />
   </div>
 </template>
@@ -15,7 +15,7 @@ export default {
   name: 'app',
   data() {
     return {
-      report: {},
+      report: null,
     }
   },
   components: {

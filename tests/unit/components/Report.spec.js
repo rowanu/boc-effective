@@ -2,23 +2,16 @@ import { shallowMount } from '@vue/test-utils'
 import Report from '@/components/Report.vue'
 
 describe('Report', () => {
-  it('it shows a list of actions', async () => {
-    const actions = ['a', 'b']
+  it('it shows a list of resources', async () => {
+    const resources = ['bucket', 'topic']
     const wrapper = shallowMount(Report, {
       propsData: {
-        actions,
+        resources,
       },
     })
-    expect(wrapper.findAll('#report .action').length).toEqual(actions.length)
-  })
-
-  it('it works with no actions', async () => {
-    const actions = []
-    const wrapper = shallowMount(Report, {
-      propsData: {
-        actions,
-      },
-    })
-    expect(wrapper.findAll('#report .action').length).toEqual(actions.length)
+    expect(wrapper.findAll('#report .resource').length).toEqual(
+      resources.length
+    )
+    expect(wrapper.text()).toContain(resources[0])
   })
 })

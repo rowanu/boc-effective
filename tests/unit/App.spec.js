@@ -21,7 +21,7 @@ describe('App', () => {
     const wrapper = shallowMount(App, {
       stubs: { Report: true },
     })
-    wrapper.setData({ report: { actions: ['a', 'b'] } })
+    wrapper.setData({ report: { resources: ['bucket', 'topic'] } })
     await Vue.nextTick()
     expect(wrapper.contains('report-stub')).toEqual(true)
     expect(wrapper.contains('instructions-stub')).toEqual(false)
