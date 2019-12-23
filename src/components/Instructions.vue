@@ -11,21 +11,26 @@
 
     <pre>
 {
-  "Version": "2012-10-17",
   "Statement": [
     {
-      "Effect": "Allow",
       "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
+        "logs:*"
       ],
-      "Resource": "*"
+      "Effect": "Allow",
+      "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::*"
     }
-  ]
+  ],
+  "Version": "2012-10-17"
 }
-      </pre
-    >
+    </pre>
     <h2>AWS Managed Policies</h2>
     <div>
       To see what the AWS Managed Policies give you, see this

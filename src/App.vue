@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <PolicyInput />
-    <Report v-if="report" />
+    <PolicyInput @report="setReport" />
+    <Report v-if="report" :report="report" />
     <Instructions v-else />
   </div>
 </template>
@@ -22,6 +22,11 @@ export default {
     Instructions,
     PolicyInput,
     Report,
+  },
+  methods: {
+    setReport(report) {
+      this.report = report
+    },
   },
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div id="policy-input">
     <h1>Policy</h1>
-    <div v-if="errors.length > 0" class="error">
+    <div v-if="errors.length > 0" class="errors">
       <div v-for="(error, index) in errors" :key="index">
         {{ error }}
       </div>
@@ -19,6 +19,7 @@ export default {
     return {
       errors: [],
       input: null,
+      policy: null,
     }
   },
   components: {
@@ -29,11 +30,21 @@ export default {
       this.errors = [error]
     },
     setInput(input) {
-      const policy = effective(input)
+      this.input = input
+    },
+  },
+  // TODO: Use computed over watch?
+  watch: {
+    input(input) {
+      this.errors = []
+      this.policy = effective(input)
+    },
+    policy(policy) {
       if (!policy.isValid) {
         this.errors = policy.errors
+        // TODO: Reset report
       } else {
-        this.errors = []
+        this.$emit('report', policy.report)
       }
     },
   },

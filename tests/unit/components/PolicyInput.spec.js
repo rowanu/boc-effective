@@ -10,16 +10,16 @@ describe('PolicyInput', () => {
     expect(wrapper.contains('jsoninput-stub')).toEqual(true)
   })
 
-  it('only shows an error if there is one', async () => {
+  it('shows an error if there is one', async () => {
     const wrapper = shallowMount(PolicyInput)
-    expect(wrapper.find('.error').exists()).toBe(false)
+    expect(wrapper.find('.errors').exists()).toBe(false)
   })
 
   it('shows errors', async () => {
     const errors = ['Oh noes']
     const wrapper = shallowMount(PolicyInput)
     wrapper.setData({ errors })
-    expect(wrapper.find('.error').text()).toEqual(errors[0])
+    expect(wrapper.find('.errors').text()).toEqual(errors[0])
   })
 
   it('shows an error from child', async () => {
@@ -27,11 +27,11 @@ describe('PolicyInput', () => {
     const wrapper = shallowMount(PolicyInput)
     wrapper.find('jsoninput-stub').vm.$emit('error', error)
     await Vue.nextTick()
-    expect(wrapper.find('.error').text()).toEqual(error)
+    expect(wrapper.find('.errors').text()).toEqual(error)
   })
 
-  it('clear an error when valid input is emitted', async () => {
-    const errors = ['Oh noes']
+  it('clears errors when valid input is emitted', async () => {
+    const errors = ['It was invalid']
     const input = {
       Version: '2012-10-17',
       Statement: [{ Effect: 'Allow', Action: '*', Resource: '*' }],
@@ -39,19 +39,21 @@ describe('PolicyInput', () => {
     const wrapper = shallowMount(PolicyInput)
     wrapper.setData({ errors })
     wrapper.find('jsoninput-stub').vm.$emit('input', input)
-    expect(wrapper.find('.error').exists()).toBe(false)
+    expect(wrapper.contains('.errors')).toEqual(false)
   })
 
-  it('shows a policy error', async () => {
-    const errors = ['Oh noes']
-    const input = {
-      Version: '2012-10-17',
-    }
+  it('shows errors', async () => {
+    const errors = ['Missing something in the policy']
     const wrapper = shallowMount(PolicyInput)
     wrapper.setData({ errors })
-    wrapper.find('jsoninput-stub').vm.$emit('input', input)
-    expect(wrapper.find('.error').text()).toEqual(
-      "should have required property 'Statement'"
-    )
+    expect(wrapper.find('.errors').text()).toEqual(errors[0])
   })
+
+  it('emits a report', async () => {
+    const wrapper = shallowMount(PolicyInput)
+    // FIXME? Requires knowledge of policy format e.g. isValid
+    wrapper.setData({ policy: { isValid: true, report: {} } })
+    expect(wrapper.emitted().report[0]).toEqual([{}])
+  })
+  // TODO: Reset report
 })

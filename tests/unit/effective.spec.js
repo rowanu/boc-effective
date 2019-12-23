@@ -1,6 +1,6 @@
 import effective from '@/effective.js'
 
-describe.only('policy.schema.json', () => {
+describe('policy.schema.json', () => {
   it('validates AdministratorAccess', async () => {
     const AdministratorAccess = {
       Version: '2012-10-17',
@@ -79,5 +79,25 @@ describe.only('policy.schema.json', () => {
     }
     const policy = effective(ResourceArray)
     expect(policy.isValid).toEqual(true)
+  })
+})
+
+describe('report', () => {
+  it('contains a resource', async () => {
+    const policy = {
+      Version: '2012-10-17',
+      Statement: [{ Effect: 'Allow', Action: '*', Resource: 'a' }],
+    }
+    const { report } = effective(policy)
+    expect(report.resources[0].name).toEqual('a')
+  })
+
+  it('contains actions in a resource', async () => {
+    const policy = {
+      Version: '2012-10-17',
+      Statement: [{ Effect: 'Allow', Action: '*', Resource: ['a'] }],
+    }
+    const { report } = effective(policy)
+    expect(report.resources[0].actions).toEqual(['*'])
   })
 })
