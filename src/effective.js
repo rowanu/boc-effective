@@ -11,17 +11,16 @@ export default function(policy) {
   const isValid = validate(policy)
   let report = {}
   if (isValid) {
-    const resources = []
-    policy.Statement.forEach(s => {
-      // FIXME: This variable naming is confusing
-      const resource = arrayify(s.Resource)
-      resource.forEach(r => {
-        const actions = arrayify(s.Action)
-        resources.push({ name: r, actions })
+    const resourceSummary = []
+    policy.Statement.forEach(statement => {
+      const resourcesArray = arrayify(statement.Resource)
+      resourcesArray.forEach(resource => {
+        const actions = arrayify(statement.Action)
+        resourceSummary.push({ name: resource, actions })
       })
     })
-    // TODO: Sort, uniq
-    report = { resources }
+    // TODO: Sort, uniq resources
+    report = { resources: resourceSummary }
   }
 
   return {
