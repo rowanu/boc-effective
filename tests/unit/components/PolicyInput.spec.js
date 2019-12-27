@@ -36,7 +36,12 @@ describe('PolicyInput', () => {
       Version: '2012-10-17',
       Statement: [{ Effect: 'Allow', Action: '*', Resource: '*' }],
     }
-    const wrapper = shallowMount(PolicyInput)
+    const $effective = () => ({
+      isValid: true,
+    })
+    const wrapper = shallowMount(PolicyInput, {
+      mocks: { $effective },
+    })
     wrapper.setData({ errors })
     wrapper.find('jsoninput-stub').vm.$emit('input', input)
     expect(wrapper.contains('.errors')).toEqual(false)

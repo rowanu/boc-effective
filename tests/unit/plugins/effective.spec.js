@@ -1,18 +1,35 @@
-import effective from '@/effective.js'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
+import App from '@/App.vue'
+import Effective from '@/plugins/Effective.js'
 
-describe('policy.schema.json', () => {
+const pluginWrapper = () => {
+  const localVue = createLocalVue()
+  localVue.use(Effective)
+  return shallowMount(App, {
+    localVue,
+  })
+}
+
+describe('Effective', () => {
+  it('loads an instance method', async () => {
+    const wrapper = pluginWrapper()
+    expect(typeof wrapper.vm.$effective).toEqual('function')
+  })
+
   it('validates AdministratorAccess', async () => {
+    const wrapper = pluginWrapper()
     const AdministratorAccess = {
       Version: '2012-10-17',
       Statement: [{ Effect: 'Allow', Action: '*', Resource: '*' }],
     }
-    const policy = effective(AdministratorAccess)
+    const policy = wrapper.vm.$effective(AdministratorAccess)
     expect(policy.isValid).toEqual(true)
   })
 
   it('invalidates a missing Statement', async () => {
+    const wrapper = pluginWrapper()
     const MissingStatement = {}
-    const policy = effective(MissingStatement)
+    const policy = wrapper.vm.$effective(MissingStatement)
     expect(policy.isValid).toEqual(false)
     expect(policy.errors[0]).toEqual(
       "should have required property 'Statement'"
@@ -20,10 +37,11 @@ describe('policy.schema.json', () => {
   })
 
   it('invalidates an empty Statement', async () => {
+    const wrapper = pluginWrapper()
     const EmptyStatement = {
       Statement: [],
     }
-    const policy = effective(EmptyStatement)
+    const policy = wrapper.vm.$effective(EmptyStatement)
     expect(policy.isValid).toEqual(false)
     expect(policy.errors[0]).toEqual(
       '.Statement should NOT have fewer than 1 items'
@@ -31,10 +49,11 @@ describe('policy.schema.json', () => {
   })
 
   it('invalidates a missing Effect', async () => {
+    const wrapper = pluginWrapper()
     const EmptyEffect = {
       Statement: [{ Action: '*', Resource: '*' }],
     }
-    const policy = effective(EmptyEffect)
+    const policy = wrapper.vm.$effective(EmptyEffect)
     expect(policy.isValid).toEqual(false)
     expect(policy.errors[0]).toEqual(
       ".Statement[0] should have required property 'Effect'"
@@ -42,10 +61,11 @@ describe('policy.schema.json', () => {
   })
 
   it('invalidates a missing Action', async () => {
+    const wrapper = pluginWrapper()
     const EmptyAction = {
       Statement: [{ Effect: 'Allow', Resource: '*' }],
     }
-    const policy = effective(EmptyAction)
+    const policy = wrapper.vm.$effective(EmptyAction)
     expect(policy.isValid).toEqual(false)
     expect(policy.errors[0]).toEqual(
       ".Statement[0] should have required property 'Action'"
@@ -53,10 +73,11 @@ describe('policy.schema.json', () => {
   })
 
   it('invalidates a missing Resource', async () => {
+    const wrapper = pluginWrapper()
     const EmptyResource = {
       Statement: [{ Effect: 'Allow', Action: '*' }],
     }
-    const policy = effective(EmptyResource)
+    const policy = wrapper.vm.$effective(EmptyResource)
     expect(policy.isValid).toEqual(false)
     expect(policy.errors[0]).toEqual(
       ".Statement[0] should have required property 'Resource'"
@@ -64,40 +85,44 @@ describe('policy.schema.json', () => {
   })
 
   it('allows an array of Action', async () => {
+    const wrapper = pluginWrapper()
     const ActionArray = {
       Version: '2012-10-17',
       Statement: [{ Effect: 'Allow', Action: ['a'], Resource: '*' }],
     }
-    const policy = effective(ActionArray)
+    const policy = wrapper.vm.$effective(ActionArray)
     expect(policy.isValid).toEqual(true)
   })
 
   it('allows an array of Resource', async () => {
+    const wrapper = pluginWrapper()
     const ResourceArray = {
       Version: '2012-10-17',
       Statement: [{ Effect: 'Allow', Action: '*', Resource: ['a'] }],
     }
-    const policy = effective(ResourceArray)
+    const policy = wrapper.vm.$effective(ResourceArray)
     expect(policy.isValid).toEqual(true)
   })
 })
 
 describe('report', () => {
   it('contains a resource', async () => {
+    const wrapper = pluginWrapper()
     const policy = {
       Version: '2012-10-17',
       Statement: [{ Effect: 'Allow', Action: '*', Resource: 'a' }],
     }
-    const { report } = effective(policy)
+    const { report } = wrapper.vm.$effective(policy)
     expect(report.resources[0].name).toEqual('a')
   })
 
   it('contains actions in a resource', async () => {
+    const wrapper = pluginWrapper()
     const policy = {
       Version: '2012-10-17',
       Statement: [{ Effect: 'Allow', Action: '*', Resource: ['a'] }],
     }
-    const { report } = effective(policy)
+    const { report } = wrapper.vm.$effective(policy)
     expect(report.resources[0].actions).toEqual(['*'])
   })
 })

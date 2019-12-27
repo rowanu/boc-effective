@@ -7,7 +7,7 @@ const validate = ajv.compile(schema)
 const arrayify = value => {
   return Array.isArray(value) ? value : [value]
 }
-export default function(policy) {
+const effective = function(policy) {
   const isValid = validate(policy)
   let report = {}
   if (isValid) {
@@ -30,4 +30,10 @@ export default function(policy) {
       validate.errors &&
       validate.errors.map(e => `${e.dataPath} ${e.message}`.trim()),
   }
+}
+
+export default {
+  install(Vue) {
+    Vue.prototype.$effective = effective
+  },
 }

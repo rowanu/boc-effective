@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import effective from '@/effective.js'
 import JSONInput from './JSONInput.vue'
 
 export default {
@@ -37,7 +36,7 @@ export default {
   watch: {
     input(input) {
       this.errors = []
-      this.policy = effective(input)
+      this.policy = this.$effective(input)
     },
     policy(policy) {
       if (!policy.isValid) {
