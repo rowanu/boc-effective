@@ -1,13 +1,34 @@
-const Ajv = require('ajv')
-const ajv = new Ajv()
-
+import _ from 'lodash'
+import Ajv from 'ajv'
 const schema = require('@/policy.schema.json')
+
+const ajv = new Ajv()
 const validate = ajv.compile(schema)
 
 const arrayify = value => {
   return Array.isArray(value) ? value : [value]
 }
-const effective = function(policy) {
+
+const expand = (sourceActions, allActions) => {
+  // TODO: All actions should be toLowerCase()
+  let actions = []
+  sourceActions.forEach(s => {
+    if (s.includes('*')) {
+      const matchedActions = allActions.filter(a =>
+        a.match(new RegExp(`^${s}`))
+      )
+      actions = actions.concat(matchedActions)
+      if (matchedActions.length < 1) {
+        actions.push(s)
+      }
+    } else {
+      actions.push(s)
+    }
+  })
+  return _.uniq(actions).sort()
+}
+
+const effective = function(policy, allActions = []) {
   const isValid = validate(policy)
   let report = {}
   if (isValid) {
@@ -16,10 +37,10 @@ const effective = function(policy) {
       const resourcesArray = arrayify(statement.Resource)
       resourcesArray.forEach(resource => {
         const actions = arrayify(statement.Action)
-        resourceSummary.push({ name: resource, actions })
+        const expandedActions = expand(actions, allActions)
+        resourceSummary.push({ name: resource, actions: expandedActions })
       })
     })
-    // TODO: Sort, uniq resources
     report = { resources: resourceSummary }
   }
 
@@ -33,7 +54,9 @@ const effective = function(policy) {
 }
 
 export default {
-  install(Vue) {
-    Vue.prototype.$effective = effective
+  install(Vue, options = {}) {
+    const allActions = options.allActions || []
+    // console.log(`Loaded ${allActions.length} actions`)
+    Vue.prototype.$effective = policy => effective(policy, allActions)
   },
 }

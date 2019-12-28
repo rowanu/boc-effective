@@ -1,5 +1,17 @@
 # effective
 
+## Vue Plugin
+
+Effective is a Vue plugin.
+
+It can be supplied an `allActions` option at installation for testing purposes.
+If no array is supplied, it will download a list of valid IAM Actions from
+https://awspolicygen.s3.amazonaws.com/js/policies.js.
+
+### Development
+
+For local development, actions are loaded from `public/policies.js`.
+
 ## Project setup
 ```
 npm install

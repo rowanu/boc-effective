@@ -2,9 +2,9 @@ import { createLocalVue, shallowMount } from '@vue/test-utils'
 import App from '@/App.vue'
 import Effective from '@/plugins/Effective.js'
 
-const pluginWrapper = () => {
+const pluginWrapper = (options = {}) => {
   const localVue = createLocalVue()
-  localVue.use(Effective)
+  localVue.use(Effective, options)
   return shallowMount(App, {
     localVue,
   })
@@ -120,9 +120,65 @@ describe('report', () => {
     const wrapper = pluginWrapper()
     const policy = {
       Version: '2012-10-17',
-      Statement: [{ Effect: 'Allow', Action: '*', Resource: ['a'] }],
+      Statement: [
+        { Effect: 'Allow', Action: 'service:action', Resource: ['a'] },
+      ],
     }
     const { report } = wrapper.vm.$effective(policy)
-    expect(report.resources[0].actions).toEqual(['*'])
+    expect(report.resources[0].actions).toEqual(['service:action'])
+  })
+
+  it('expands * actions in a resource', async () => {
+    const wrapper = pluginWrapper({
+      allActions: [
+        'notservice:a',
+        'service:a',
+        'service:b',
+        'service:c',
+        'other',
+      ],
+    })
+    const policy = {
+      Version: '2012-10-17',
+      Statement: [{ Effect: 'Allow', Action: 'service:*', Resource: ['a'] }],
+    }
+    const { report } = wrapper.vm.$effective(policy)
+    expect(report.resources[0].actions).toEqual([
+      'service:a',
+      'service:b',
+      'service:c',
+    ])
+  })
+  it('returns unrecognised expansions unchanged', async () => {
+    const wrapper = pluginWrapper({
+      allActions: ['service:a', 'service:b', 'service:c', 'other'],
+    })
+    const policy = {
+      Version: '2012-10-17',
+      Statement: [{ Effect: 'Allow', Action: 'unknown:*', Resource: ['a'] }],
+    }
+    const { report } = wrapper.vm.$effective(policy)
+    expect(report.resources[0].actions).toEqual(['unknown:*'])
+  })
+  it('does not include duplicates', async () => {
+    const wrapper = pluginWrapper({
+      allActions: ['service:a', 'service:b', 'service:c', 'other'],
+    })
+    const policy = {
+      Version: '2012-10-17',
+      Statement: [
+        {
+          Effect: 'Allow',
+          Action: ['service:a', 'service:*'],
+          Resource: ['a'],
+        },
+      ],
+    }
+    const { report } = wrapper.vm.$effective(policy)
+    expect(report.resources[0].actions).toEqual([
+      'service:a',
+      'service:b',
+      'service:c',
+    ])
   })
 })
