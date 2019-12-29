@@ -6,10 +6,11 @@ import Effective from '@/plugins/Effective.js'
 const url = process.env.VUE_APP_POLICIES_URL
 // eslint-disable-next-line
 console.log(`Fetching ${url}`)
-fetch(url, { mode: 'no-cors' }).then(response => {
-  // eslint-disable-next-line
-  console.log(`Response from ${url}`)
-  return response.text().then(content => {
+fetch(url, { mode: 'no-cors' })
+  .then(response => response.text())
+  .then(content => {
+    // eslint-disable-next-line
+    console.debug(content)
     // eslint-disable-next-line
     console.log(`Parsing ${url}`)
     const { serviceMap } = JSON.parse(
@@ -31,4 +32,3 @@ fetch(url, { mode: 'no-cors' }).then(response => {
       render: h => h(App),
     }).$mount('#app')
   })
-})
