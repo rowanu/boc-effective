@@ -6,7 +6,7 @@ import Effective from '@/plugins/Effective.js'
 const url = process.env.VUE_APP_POLICIES_URL
 // eslint-disable-next-line
 console.log(`Fetching ${url}`)
-fetch(url).then(response => {
+fetch(url, { cors: 'no-cors' }).then(response => {
   // eslint-disable-next-line
   console.log(`Response from ${url}`)
   return response.text().then(content => {
