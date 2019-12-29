@@ -23,7 +23,8 @@ vue-lint:
 
 .PHONY: cfn-lint
 cfn-lint:
-	cfn-lint -t $(CFN_TEMPLATE_PATTERN)
+	yamllint --strict ${CFN_TEMPLATE_PATTERN}
+	cfn-lint -t ${CFN_TEMPLATE_PATTERN}
 
 .PHONY: site
 site:
@@ -31,3 +32,10 @@ site:
 		--stack-name ${STACK_PREFIX}-site \
 		--no-fail-on-empty-changeset \
 		--template-file site.template
+
+.PHONY: pipeline
+pipeline:
+	aws cloudformation deploy \
+		--capabilities CAPABILITY_IAM \
+		--stack-name ${STACK_PREFIX}-pipeline \
+		--template-file pipeline.template

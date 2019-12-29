@@ -1,0 +1,26 @@
+---
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+    commands:
+      - env | sort
+      - make install
+
+  # TODO: Need to install linters e.g. cfn-lint, etc
+  # pre_build:
+  #   commands:
+  #     - make lint
+
+  build:
+    commands:
+      - make dist
+    finally:
+      - mv dist actions
+
+artifacts:
+  base-directory: actions
+  files:
+    - "**/*"
