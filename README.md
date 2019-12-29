@@ -1,8 +1,16 @@
 # effective
 
+An online tool to expand an IAM Policy action wildcards, so that the effective
+permissions are made explicit.
+
+Useful for when working with AWS Managed Services, which use wildards
+extensively.
+
 ## Vue Plugin
 
-Effective is a Vue plugin.
+Effective functionality is a Vue plugin.
+
+### Testing
 
 It can be supplied an `allActions` option at installation for testing purposes.
 If no array is supplied, it will download a list of valid IAM Actions from
@@ -12,39 +20,26 @@ https://awspolicygen.s3.amazonaws.com/js/policies.js.
 
 For local development, actions are loaded from `public/policies.js`.
 
-## Project setup
+## Vue CLI Commands
+
 ```
+# Project setup
 npm install
-```
 
-### Compiles and hot-reloads for development
-```
+# Compiles and hot-reloads for development
 npm run serve
-```
 
-### Compiles and minifies for production
-```
+# Compiles and minifies for production
 npm run build
-```
 
-### Run your unit tests
-```
+# Run your unit tests
 npm run test:unit
-```
 
-### Run your end-to-end tests
-```
+# Run your end-to-end tests
 npm run test:e2e
-```
 
-### Lints and fixes files
-```
+# Lints and fixes files
 npm run lint
 ```
 
-### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
-## References
-
-* https://awspolicygen.s3.amazonaws.com/js/policies.js
