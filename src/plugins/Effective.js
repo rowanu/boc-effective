@@ -56,7 +56,6 @@ const effective = function(policy, allActions = []) {
 export default {
   install(Vue, options = {}) {
     const allActions = options.allActions || []
-    // console.log(`Loaded ${allActions.length} actions`)
     Vue.prototype.$effective = policy => effective(policy, allActions)
   },
 }

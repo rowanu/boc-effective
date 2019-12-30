@@ -6,19 +6,17 @@ permissions are made explicit.
 Useful for when working with AWS Managed Services, which use wildards
 extensively.
 
+## AWS Actions
+
+
+AWS Actions are downloaded from `https://awspolicygen.s3.amazonaws.com/js/policies.js`.
+
+They are stored in `src/actions.json`, and they must be present for things to work.
+Actions are updated when new services/features are available, and can be updated with `make actions`.
+
 ## Vue Plugin
 
-Effective functionality is a Vue plugin.
-
-### Testing
-
-It can be supplied an `allActions` option at installation for testing purposes.
-If no array is supplied, it will download a list of valid IAM Actions from
-https://awspolicygen.s3.amazonaws.com/js/policies.js.
-
-### Development
-
-For local development, actions are loaded from `public/policies.js`.
+IAM logic is encapsulated in a Vue plugin.
 
 ## Vue CLI Commands
 

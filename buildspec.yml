@@ -9,6 +9,8 @@ phases:
       - env | sort
       - make install
 
+  # TODO: Run tests
+
   # TODO: Need to install linters e.g. cfn-lint, etc
   # pre_build:
   #   commands:

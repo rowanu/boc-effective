@@ -3,6 +3,10 @@ OUTPUT_TEMPLATE ?= out.yaml
 S3_BUCKET ?= rowanudell-2019-deployment
 STACK_PREFIX ?= boc-effective
 
+.PHONY: src/actions.json # Force update
+src/actions.json:
+	node fetch.js
+
 dist:
 	npm run build
 
@@ -13,6 +17,10 @@ install:
 .PHONY: clean
 clean:
 	rm -rf dist/
+
+.PHONY: test
+test:
+	npm run test
 
 .PHONY: lint
 lint: cfn-lint vue-lint
