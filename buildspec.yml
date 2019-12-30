@@ -19,10 +19,11 @@ phases:
   build:
     commands:
       - make dist
-    finally:
       - mv dist actions
+      # TODO: Remove, debugging
+      - ls -al
 
 artifacts:
   base-directory: actions
   files:
-    - "**/*"
+    - actions/**/*
