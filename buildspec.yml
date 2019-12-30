@@ -20,10 +20,7 @@ phases:
     commands:
       - make dist
       - mv dist actions
-      # TODO: Remove, debugging
-      - ls -al
 
 artifacts:
-  base-directory: actions
   files:
     - actions/**/*
