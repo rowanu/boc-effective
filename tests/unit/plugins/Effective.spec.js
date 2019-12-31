@@ -68,7 +68,7 @@ describe('Effective', () => {
     const policy = wrapper.vm.$effective(EmptyAction)
     expect(policy.isValid).toEqual(false)
     expect(policy.errors[0]).toEqual(
-      ".Statement[0] should have required property 'Action'"
+      ".Statement[0] should have required property '.Action'"
     )
   })
 
@@ -103,6 +103,36 @@ describe('Effective', () => {
     const policy = wrapper.vm.$effective(ResourceArray)
     expect(policy.isValid).toEqual(true)
   })
+
+  it('validates NotAction', async () => {
+    const wrapper = pluginWrapper()
+    const NotAction = {
+      Version: '2012-10-17',
+      Statement: [
+        {
+          Sid: 'DenyAllUsersNotUsingMFA',
+          Effect: 'Deny',
+          NotAction: 'iam:*',
+          Resource: '*',
+          Condition: {
+            BoolIfExists: { 'aws:MultiFactorAuthPresent': 'false' },
+          },
+        },
+      ],
+    }
+    const policy = wrapper.vm.$effective(NotAction)
+    expect(policy.isValid).toEqual(true)
+  })
+
+  it('allows an array of NotAction', async () => {
+    const wrapper = pluginWrapper()
+    const NotActionArray = {
+      Version: '2012-10-17',
+      Statement: [{ Effect: 'Allow', NotAction: ['*'], Resource: 'a' }],
+    }
+    const policy = wrapper.vm.$effective(NotActionArray)
+    expect(policy.isValid).toEqual(true)
+  })
 })
 
 describe('report', () => {
@@ -128,7 +158,7 @@ describe('report', () => {
     expect(report.resources[0].actions).toEqual(['service:action'])
   })
 
-  it('expands * actions in a resource', async () => {
+  it('expands an Action with * in a resource', async () => {
     const wrapper = pluginWrapper({
       allActions: [
         'notservice:a',
@@ -149,6 +179,7 @@ describe('report', () => {
       'service:c',
     ])
   })
+
   it('returns unrecognised expansions unchanged', async () => {
     const wrapper = pluginWrapper({
       allActions: ['service:a', 'service:b', 'service:c', 'other'],
@@ -160,6 +191,7 @@ describe('report', () => {
     const { report } = wrapper.vm.$effective(policy)
     expect(report.resources[0].actions).toEqual(['unknown:*'])
   })
+
   it('does not include duplicates', async () => {
     const wrapper = pluginWrapper({
       allActions: ['service:a', 'service:b', 'service:c', 'other'],
@@ -180,5 +212,23 @@ describe('report', () => {
       'service:b',
       'service:c',
     ])
+  })
+
+  it('expands a NotAction with * in a resource', async () => {
+    const wrapper = pluginWrapper({
+      allActions: [
+        'notservice:a',
+        'service:a',
+        'service:b',
+        'service:c',
+        'other',
+      ],
+    })
+    const policy = {
+      Version: '2012-10-17',
+      Statement: [{ Effect: 'Allow', NotAction: 'service:*', Resource: ['a'] }],
+    }
+    const { report } = wrapper.vm.$effective(policy)
+    expect(report.resources[0].actions).toEqual(['notservice:a', 'other'])
   })
 })

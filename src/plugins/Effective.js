@@ -28,6 +28,24 @@ const expand = (sourceActions, allActions) => {
   return _.uniq(actions).sort()
 }
 
+const invert = (sourceActions, allActions) => {
+  let actions = []
+  sourceActions.forEach(s => {
+    if (s.includes('*')) {
+      const matchedActions = allActions.filter(
+        a => !a.match(new RegExp(`^${s}`))
+      )
+      actions = actions.concat(matchedActions)
+      if (matchedActions.length < 1) {
+        actions.push(s)
+      }
+    } else {
+      actions.push(s)
+    }
+  })
+  return _.uniq(actions).sort()
+}
+
 const effective = function(policy, allActions = []) {
   const isValid = validate(policy)
   let report = {}
@@ -36,9 +54,16 @@ const effective = function(policy, allActions = []) {
     policy.Statement.forEach(statement => {
       const resourcesArray = arrayify(statement.Resource)
       resourcesArray.forEach(resource => {
-        const actions = arrayify(statement.Action)
-        const expandedActions = expand(actions, allActions)
-        resourceSummary.push({ name: resource, actions: expandedActions })
+        let results
+        if (statement.Action) {
+          const actions = arrayify(statement.Action)
+          results = expand(actions, allActions)
+        }
+        if (statement.NotAction) {
+          const notActions = arrayify(statement.NotAction)
+          results = invert(notActions, allActions)
+        }
+        resourceSummary.push({ name: resource, actions: results })
       })
     })
     report = { resources: resourceSummary }

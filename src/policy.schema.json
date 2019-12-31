@@ -21,6 +21,12 @@
     "statement": {
       "type": "object",
       "properties": {
+        "NotAction": {
+          "type": [ "string", "array" ],
+          "items": [
+            { "type": "string" }
+          ]
+        },
         "Action": {
           "type": [ "string", "array" ],
           "items": [
@@ -38,7 +44,15 @@
           ]
         }
       },
-      "required": ["Action", "Effect", "Resource"]
+      "oneOf": [
+        {
+          "required": [ "Action" ]
+        },
+        {
+          "required": [ "NotAction" ]
+        }
+      ],
+      "required": ["Effect", "Resource"]
     }
   }
 }
