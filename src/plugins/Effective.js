@@ -14,6 +14,9 @@ const expand = (sourceActions, allActions) => {
   let actions = []
   sourceActions.forEach(s => {
     if (s.includes('*')) {
+      if (s === '*') {
+        s = '.*'
+      }
       const matchedActions = allActions.filter(a =>
         a.match(new RegExp(`^${s}`))
       )
@@ -32,6 +35,9 @@ const invert = (sourceActions, allActions) => {
   let actions = []
   sourceActions.forEach(s => {
     if (s.includes('*')) {
+      if (s === '*') {
+        s = '.*'
+      }
       const matchedActions = allActions.filter(
         a => !a.match(new RegExp(`^${s}`))
       )
@@ -45,6 +51,11 @@ const invert = (sourceActions, allActions) => {
   })
   return _.uniq(actions).sort()
 }
+
+// TODO: _.uniq()
+const addActions = (a, b) => a.concat(b).sort()
+
+const removeActions = (a, b) => a.filter(x => !_.includes(b, x))
 
 const effective = function(policy, allActions = []) {
   const isValid = validate(policy)
@@ -64,10 +75,13 @@ const effective = function(policy, allActions = []) {
           const notActions = arrayify(statement.NotAction)
           results = invert(notActions, allActions)
         }
-
         if (resources[resource]) {
-          // TODO: Uniq + sort
-          resources[resource] = resources[resource].concat(results).sort()
+          if (statement.Effect === 'Allow') {
+            resources[resource] = addActions(resources[resource], results)
+          }
+          if (statement.Effect === 'Deny') {
+            resources[resource] = removeActions(resources[resource], results)
+          }
         } else {
           resources[resource] = results
         }
