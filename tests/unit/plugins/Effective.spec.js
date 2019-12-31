@@ -231,4 +231,26 @@ describe('report', () => {
     const { report } = wrapper.vm.$effective(policy)
     expect(report.resources[0].actions).toEqual(['notservice:a', 'other'])
   })
+
+  it('combines actions on a resource', async () => {
+    const allActions = [
+      'notservice:a',
+      'other',
+      'service:a',
+      'service:b',
+      'service:c',
+    ]
+    const wrapper = pluginWrapper({
+      allActions,
+    })
+    const policy = {
+      Version: '2012-10-17',
+      Statement: [
+        { Effect: 'Allow', NotAction: 'service:*', Resource: ['a'] },
+        { Effect: 'Allow', Action: 'service:*', Resource: ['a'] },
+      ],
+    }
+    const { report } = wrapper.vm.$effective(policy)
+    expect(report.resources[0].actions).toEqual(allActions)
+  })
 })

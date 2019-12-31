@@ -51,6 +51,7 @@ const effective = function(policy, allActions = []) {
   let report = {}
   if (isValid) {
     const resourceSummary = []
+    const resources = {}
     policy.Statement.forEach(statement => {
       const resourcesArray = arrayify(statement.Resource)
       resourcesArray.forEach(resource => {
@@ -63,9 +64,18 @@ const effective = function(policy, allActions = []) {
           const notActions = arrayify(statement.NotAction)
           results = invert(notActions, allActions)
         }
-        resourceSummary.push({ name: resource, actions: results })
+
+        if (resources[resource]) {
+          // TODO: Uniq + sort
+          resources[resource] = resources[resource].concat(results).sort()
+        } else {
+          resources[resource] = results
+        }
       })
     })
+    for (const resource in resources) {
+      resourceSummary.push({ name: resource, actions: resources[resource] })
+    }
     report = { resources: resourceSummary }
   }
 
