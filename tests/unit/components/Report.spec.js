@@ -27,4 +27,16 @@ describe('Report', () => {
     })
     expect(wrapper.text()).toContain(report.resources[0].actions[0])
   })
+
+  it('it shows a count of actions by resource', async () => {
+    const report = {
+      resources: [{ name: 'bucket-resource', actions: ['list-action'] }],
+    }
+    const wrapper = shallowMount(Report, {
+      propsData: {
+        report,
+      },
+    })
+    expect(wrapper.text()).toContain('1 actions')
+  })
 })

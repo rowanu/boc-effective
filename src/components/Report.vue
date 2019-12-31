@@ -6,6 +6,9 @@
       :key="resource.name"
       class="resource"
     >
+      <span v-if="resource.actions && resource.actions.length">
+        Policy allows {{ resource.actions.length }} actions on
+      </span>
       {{ resource.name }}
       <div v-for="action in resource.actions" :key="action" class="action">
         {{ action }}
