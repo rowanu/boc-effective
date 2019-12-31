@@ -7,18 +7,22 @@ phases:
       nodejs: 10
     commands:
       - env | sort
+      # TODO: Need to install linters e.g. cfn-lint, etc
       - make install
 
-  # TODO: Run tests
-
-  # TODO: Need to install linters e.g. cfn-lint, etc
-  # pre_build:
-  #   commands:
-  #     - make lint
+  pre_build:
+    commands:
+      # - make lint
+      # - make test
+      - npm run test:unit
 
   build:
     commands:
       - make dist
+
+  # Rename directory to support Distribution path behavior
+  post_build:
+    commands:
       - mv dist actions
 
 artifacts:
