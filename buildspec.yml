@@ -7,7 +7,6 @@ phases:
       nodejs: 10
     commands:
       - env | sort
-      # TODO: Need to install linters e.g. cfn-lint, etc
       - make install
 
   pre_build:

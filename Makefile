@@ -12,6 +12,7 @@ dist:
 
 .PHONY: install
 install:
+	# TODO: Need to install linters e.g. cfn-lint, etc
 	npm install
 
 .PHONY: clean

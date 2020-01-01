@@ -1,13 +1,20 @@
 <template>
-  <div id="instructions">
-    <h1>Instructions</h1>
-    <p>
-      Paste or edit
+  <div id="instructions" class="container">
+    <h2 class="title is-2">Instructions</h2>
+    <p class="content">
+      To learn more about IAM Policies, check out
+      <a
+        href="https://aws.amazon.com/blogs/security/back-to-school-understanding-the-iam-policy-grammar/"
+        target="_blank"
+        >this blog</a
+      >.
     </p>
-    <h2>Example</h2>
-    <p>
-      Here's an example policy. AWSLambdaBasicExecutionRole
+    <h3 class="title is-3">Examples</h3>
+    <p class="content">
+      Here's an example policy.
     </p>
+
+    <h4 class="title is-4">AWSLambdaBasicExecutionRole</h4>
 
     <pre>
 {
@@ -31,7 +38,7 @@
   "Version": "2012-10-17"
 }
     </pre>
-    <h2>AWS Managed Policies</h2>
+    <h3 class="title is-3">AWS Managed Policies</h3>
     <div>
       To see what the AWS Managed Policies give you, see this
       community-maintained list:

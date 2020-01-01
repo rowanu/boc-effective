@@ -3,16 +3,19 @@
     <textarea
       :value="input"
       @input="update"
-      :class="{ error: !isValid }"
+      class="textarea"
+      :class="{ 'is-danger': !isValid }"
     ></textarea>
   </div>
 </template>
 
 <script>
+import autosize from 'autosize'
 import { debounce } from 'lodash'
 
 export default {
   name: 'JSONInput',
+  props: ['handle-change', 'value'],
   data() {
     return {
       isValid: true,
@@ -42,11 +45,15 @@ export default {
       this.input = e.target.value
     }, 300),
   },
+  mounted() {
+    autosize(this.$el.querySelector('textarea'))
+  },
 }
 </script>
 
 <style scoped>
-.error {
-  border: 0.2rem dotted red;
+textarea {
+  width: 100%;
+  min-height: 200px;
 }
 </style>

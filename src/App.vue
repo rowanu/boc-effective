@@ -1,8 +1,12 @@
 <template>
   <div id="app">
-    <PolicyInput @report="setReport" />
-    <Report v-if="report" :report="report" />
-    <Instructions v-else />
+    <section class="section">
+      <div class="columns">
+        <PolicyInput @report="setReport" class="column is-two-fifths" />
+        <Report v-if="report" :report="report" class="column" />
+        <Instructions v-else class="column" />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -33,11 +37,5 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

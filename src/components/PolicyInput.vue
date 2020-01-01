@@ -1,11 +1,21 @@
 <template>
-  <div id="policy-input">
-    <h1>Policy</h1>
-    <div v-if="errors.length > 0" class="errors">
+  <div id="policy-input" class="container">
+    <h2 class="title is-2">Policy</h2>
+    <p class="content">
+      Paste or input your
+      <a
+        href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements.html"
+        target="_blank"
+        >IAM Policy JSON</a
+      >
+      below.
+    </p>
+    <div v-if="errors.length > 0" class="notification is-danger">
       <div v-for="(error, index) in errors" :key="index">
         {{ error }}
       </div>
     </div>
+
     <JSONInput @error="setJSONError" @input="setInput" />
   </div>
 </template>
