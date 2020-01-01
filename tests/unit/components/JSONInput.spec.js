@@ -47,4 +47,13 @@ describe('JSONInput', () => {
     const wrapper = shallowMount(JSONInput)
     expect(wrapper.vm.isValid).toEqual(true)
   })
+
+  it('emits input when deleted', async () => {
+    const wrapper = shallowMount(JSONInput)
+    const input = { valid: 'JSON' }
+    wrapper.setData({ input: JSON.stringify(input) })
+    expect(wrapper.vm.isValid).toEqual(true)
+    wrapper.setData({ input: '' })
+    expect(wrapper.emitted().input[1]).toEqual([null])
+  })
 })

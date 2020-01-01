@@ -26,10 +26,11 @@ export default {
   watch: {
     input: function() {
       try {
+        let result = null
         if (this.input !== '') {
-          const result = JSON.parse(this.input)
-          this.$emit('input', result)
+          result = JSON.parse(this.input)
         }
+        this.$emit('input', result)
         this.isValid = true
         return
       } catch (e) {

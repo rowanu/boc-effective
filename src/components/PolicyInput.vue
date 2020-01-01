@@ -39,20 +39,24 @@ export default {
       this.errors = [error]
     },
     setInput(input) {
-      this.input = input
+      this.errors = []
+      if (input !== null) {
+        this.input = input
+      } else {
+        this.$emit('report', null)
+      }
     },
   },
   // TODO: Use computed over watch?
   watch: {
     input(input) {
-      this.errors = []
       this.policy = this.$effective(input)
     },
     policy(policy) {
       if (!policy.isValid) {
         this.errors = policy.errors
-        // TODO: Reset report
       } else {
+        this.errors = []
         this.$emit('report', policy.report)
       }
     },

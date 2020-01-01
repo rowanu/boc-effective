@@ -60,5 +60,23 @@ describe('PolicyInput', () => {
     wrapper.setData({ policy: { isValid: true, report: {} } })
     expect(wrapper.emitted().report[0]).toEqual([{}])
   })
-  // TODO: Reset report
+
+  it('clears errors', async () => {
+    const $effective = () => ({
+      isValid: true,
+    })
+    const errors = ['Missing something in the policy']
+    const wrapper = shallowMount(PolicyInput, {
+      mocks: { $effective },
+    })
+    wrapper.setData({ errors })
+    wrapper.vm.setInput(null)
+    expect(wrapper.contains('.notification')).toEqual(false)
+  })
+
+  it('resets a report', async () => {
+    const wrapper = shallowMount(PolicyInput)
+    wrapper.vm.setInput(null)
+    expect(wrapper.emitted().report[0]).toEqual([null])
+  })
 })
