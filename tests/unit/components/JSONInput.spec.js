@@ -40,7 +40,7 @@ describe('JSONInput', () => {
     const wrapper = shallowMount(JSONInput)
     wrapper.setData({ input: 'OHAI' })
     await Vue.nextTick()
-    expect(wrapper.find('textarea').classes()).toEqual(['error'])
+    expect(wrapper.find('textarea').classes()).toContain('is-danger')
   })
 
   it('shows blank input as valid', async () => {

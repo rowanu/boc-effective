@@ -9,14 +9,12 @@
         >this blog</a
       >.
     </p>
-    <h3 class="title is-3">Examples</h3>
     <p class="content">
-      Here's an example policy.
+      Here are some example policies.
     </p>
 
     <h4 class="title is-4">AWSLambdaBasicExecutionRole</h4>
-
-    <pre>
+    <pre class="content is-small">
 {
   "Statement": [
     {
@@ -36,18 +34,30 @@
     }
   ],
   "Version": "2012-10-17"
-}
-    </pre>
-    <h3 class="title is-3">AWS Managed Policies</h3>
+}</pre
+    >
+
+    <h4 class="title is-4">AdministratorAccess</h4>
+    <pre class="content is-small">
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "*",
+            "Resource": "*"
+        }
+    ]
+}</pre
+    >
+
+    <h4 class="title is-4">Other AWS Managed Policies</h4>
     <div>
       To see what the AWS Managed Policies give you, see this
       community-maintained list:
-
       <a href="https://github.com/glassechidna/trackiam/tree/master/policies">
         AWS Managed Policies</a
-      >
-
-      Note that actual policy is in the "Document" field of the recorded data.
+      >. Note that actual policy is in the "Document" field of the data files.
     </div>
   </div>
 </template>

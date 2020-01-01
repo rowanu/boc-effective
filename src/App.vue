@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Navbar />
     <section class="section">
       <div class="columns">
         <PolicyInput @report="setReport" class="column is-two-fifths" />
@@ -12,6 +13,7 @@
 
 <script>
 import Instructions from './components/Instructions.vue'
+import Navbar from './components/Navbar.vue'
 import PolicyInput from './components/PolicyInput.vue'
 import Report from './components/Report.vue'
 
@@ -24,6 +26,7 @@ export default {
   },
   components: {
     Instructions,
+    Navbar,
     PolicyInput,
     Report,
   },
