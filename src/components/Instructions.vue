@@ -44,28 +44,19 @@
 }</pre
     >
 
-    <h4 class="title is-4">AWSLambdaBasicExecutionRole</h4>
+    <h4 class="title is-4">Something a bit more real-world</h4>
     <pre class="content is-small">
 {
-  "Statement": [
-    {
-      "Action": [
-        "logs:*"
-      ],
-      "Effect": "Allow",
-      "Resource": "arn:aws:logs:*:*:*"
-    },
-    {
-      "Action": [
-        "s3:GetObject",
-        "s3:PutObject"
-      ],
-      "Effect": "Allow",
-      "Resource": "arn:aws:s3:::*"
-    }
-  ],
-  "Version": "2012-10-17"
-}</pre
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:get*",
+            "Resource": "*"
+        }
+    ]
+}
+</pre
     >
 
     <h4 class="title is-4">Other AWS Managed Policies</h4>
