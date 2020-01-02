@@ -10,7 +10,6 @@ const arrayify = value => {
 }
 
 const expand = (sourceActions, allActions) => {
-  // TODO: All actions should be toLowerCase()
   let actions = []
   sourceActions.forEach(s => {
     if (s.includes('*')) {
@@ -18,7 +17,7 @@ const expand = (sourceActions, allActions) => {
         s = '.*'
       }
       const matchedActions = allActions.filter(a =>
-        a.match(new RegExp(`^${s}`))
+        a.match(new RegExp(`^${s}`, 'i'))
       )
       actions = actions.concat(matchedActions)
       if (matchedActions.length < 1) {
@@ -39,7 +38,7 @@ const invert = (sourceActions, allActions) => {
         s = '.*'
       }
       const matchedActions = allActions.filter(
-        a => !a.match(new RegExp(`^${s}`))
+        a => !a.match(new RegExp(`^${s}`, 'i'))
       )
       actions = actions.concat(matchedActions)
       if (matchedActions.length < 1) {

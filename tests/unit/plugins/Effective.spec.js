@@ -180,6 +180,26 @@ describe('report', () => {
     ])
   })
 
+  it('is case-insensitive', async () => {
+    const wrapper = pluginWrapper({
+      allActions: [
+        's3:GetAccelerateConfiguration',
+        's3:GetAccessPoint',
+        's3:GetAccessPointPolicy',
+      ],
+    })
+    const policy = {
+      Version: '2012-10-17',
+      Statement: [{ Effect: 'Allow', Action: 's3:get*', Resource: ['a'] }],
+    }
+    const { report } = wrapper.vm.$effective(policy)
+    expect(report.resources[0].actions).toEqual([
+      's3:GetAccelerateConfiguration',
+      's3:GetAccessPoint',
+      's3:GetAccessPointPolicy',
+    ])
+  })
+
   it('returns unrecognised expansions unchanged', async () => {
     const wrapper = pluginWrapper({
       allActions: ['service:a', 'service:b', 'service:c', 'other'],
