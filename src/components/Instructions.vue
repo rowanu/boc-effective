@@ -16,6 +16,16 @@
         >this blog</a
       >.
     </p>
+
+    <p class="content">
+      Made by <a href="https://blog.rowanudell.com/" target="_blank">Rowan</a>.
+      Send
+      <a href="mailto:rowan@rowanudell?subject=Effective IAM Actions"
+        >an email</a
+      >
+      if any issues.
+    </p>
+
     <p class="content">
       Here are some example policies you can use to see action expansion.
     </p>
