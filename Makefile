@@ -48,3 +48,9 @@ pipeline:
 		--capabilities CAPABILITY_IAM \
 		--stack-name ${STACK_PREFIX}-pipeline \
 		--template-file pipeline.template
+
+.PHONY: invalidate-cache
+invalidate-cache:
+	aws cloudfront create-invalidation \
+		--distribution-id ${DISTRIBUTION_ID} \
+		--paths '/actions/*'

@@ -1,0 +1,17 @@
+---
+version: 0.2
+
+env:
+  parameter-store:
+    DISTRIBUTION_ID: /boc/distribution/id
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+    commands:
+      - env | sort
+
+  build:
+    commands:
+      - make invalidate-cache

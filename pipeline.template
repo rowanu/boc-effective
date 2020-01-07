@@ -9,6 +9,7 @@ Parameters:
     Description: The bucket that serves the static site
     Type: AWS::SSM::Parameter::Value<String>
     Default: /boc/effective/site/bucket/arn
+
   SiteBucketName:
     Description: The bucket that serves the static site
     Type: AWS::SSM::Parameter::Value<String>
@@ -114,6 +115,19 @@ Resources:
               Configuration:
                 BucketName: !Ref SiteBucketName
                 Extract: true
+              InputArtifacts:
+                - Name: BuildOutput
+        - Name: InvalidateCache
+          Actions:
+            - Name: InvalidateCache
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: "1"
+              Configuration:
+                ProjectName: !Ref Project
+                AppSpecTemplatePath: invalidcachespec.yml
               InputArtifacts:
                 - Name: BuildOutput
 
