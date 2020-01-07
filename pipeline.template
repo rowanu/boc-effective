@@ -176,6 +176,13 @@ Resources:
                   - cloudfront:CreateInvalidation
                 Resource:
                   - "*"
+              - Sid: SSMParameters
+                Effect: Allow
+                Action:
+                  - ssm:GetParameters
+                Resource:
+                  - !Sub
+                    arn:aws:ssm:${AWS::Region}:{AWS::AccountId}:parameter/boc/*
 
   Project:
     Type: AWS::CodeBuild::Project
