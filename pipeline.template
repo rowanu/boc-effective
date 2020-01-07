@@ -128,7 +128,7 @@ Resources:
               Configuration:
                 ProjectName: !Ref InvalidateCacheProject
               InputArtifacts:
-                - Name: BuildOutput
+                - Name: SourceOutput
 
   BuildRole:
     Type: AWS::IAM::Role
