@@ -162,6 +162,11 @@ describe('report', () => {
     const wrapper = pluginWrapper({
       allActions: [
         'notservice:a',
+        's3:AbortMultipartUpload',
+        's3:BypassGovernanceRetention',
+        's3:CreateAccessPoint',
+        's3:GetAccessPoint',
+        's3:GetBucketAcl',
         'service:a',
         'service:b',
         'service:c',
@@ -170,13 +175,12 @@ describe('report', () => {
     })
     const policy = {
       Version: '2012-10-17',
-      Statement: [{ Effect: 'Allow', Action: 'service:*', Resource: ['a'] }],
+      Statement: [{ Effect: 'Allow', Action: 's3:G*', Resource: ['a'] }],
     }
     const { report } = wrapper.vm.$effective(policy)
     expect(report.resources[0].actions).toEqual([
-      'service:a',
-      'service:b',
-      'service:c',
+      's3:GetAccessPoint',
+      's3:GetBucketAcl',
     ])
   })
 

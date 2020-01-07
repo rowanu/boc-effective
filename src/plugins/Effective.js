@@ -13,11 +13,9 @@ const expand = (sourceActions, allActions) => {
   let actions = []
   sourceActions.forEach(s => {
     if (s.includes('*')) {
-      if (s === '*') {
-        s = '.*'
-      }
-      const matchedActions = allActions.filter(a =>
-        a.match(new RegExp(`^${s}`, 'i'))
+      const pattern = s.replace('*', '.*')
+      const matchedActions = allActions.filter(
+        a => !a.search(new RegExp(`^${pattern}`, 'i'))
       )
       actions = actions.concat(matchedActions)
       if (matchedActions.length < 1) {
@@ -34,11 +32,9 @@ const invert = (sourceActions, allActions) => {
   let actions = []
   sourceActions.forEach(s => {
     if (s.includes('*')) {
-      if (s === '*') {
-        s = '.*'
-      }
+      const pattern = s.replace('*', '.*')
       const matchedActions = allActions.filter(
-        a => !a.match(new RegExp(`^${s}`, 'i'))
+        a => !a.match(new RegExp(`^${pattern}`, 'i'))
       )
       actions = actions.concat(matchedActions)
       if (matchedActions.length < 1) {
