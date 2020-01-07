@@ -170,6 +170,12 @@ Resources:
                   - s3:PutObject
                 Resource:
                   - !Sub ${SiteBucketArn}/*
+              - Sid: CloudFrontInvalidation
+                Effect: Allow
+                Action:
+                  - cloudfront:CreateInvalidation
+                Resource:
+                  - "*"
 
   Project:
     Type: AWS::CodeBuild::Project
@@ -198,4 +204,15 @@ Resources:
       ServiceRole: !GetAtt BuildRole.Arn
       Source:
         Type: CODEPIPELINE
-        BuildSpec: invalidatecachespec.yml
+        BuildSpec: |
+          version: 0.2
+          env:
+            parameter-store:
+              # NOTE: Using here avoids circular dependency
+              DISTRIBUTION_ID: /boc/distribution/id
+          phases:
+            post_build:
+              commands:
+                - aws cloudfront create-invalidation \
+                  --distribution-id ${DISTRIBUTION_ID} \
+                  --paths '/actions/*'
