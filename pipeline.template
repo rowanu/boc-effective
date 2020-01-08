@@ -182,7 +182,7 @@ Resources:
                   - ssm:GetParameters
                 Resource:
                   - !Sub
-                    arn:aws:ssm:${AWS::Region}:{AWS::AccountId}:parameter/boc/*
+                    arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/boc/*
 
   Project:
     Type: AWS::CodeBuild::Project
@@ -215,11 +215,15 @@ Resources:
           version: 0.2
           env:
             parameter-store:
-              # NOTE: Using here avoids circular dependency
+              # NOTE: Using here avoids template circular dependency
               DISTRIBUTION_ID: /boc/distribution/id
           phases:
+            install:
+              runtime-versions:
+                nodejs: 10
             post_build:
               commands:
-                - aws cloudfront create-invalidation \
-                  --distribution-id ${DISTRIBUTION_ID} \
+                - |
+                  aws cloudfront create-invalidation
+                  --distribution-id ${DISTRIBUTION_ID}
                   --paths '/actions/*'
