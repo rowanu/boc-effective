@@ -42,8 +42,8 @@ site:
 		--no-fail-on-empty-changeset \
 		--template-file site.template
 
-.PHONY: pipeline
-pipeline:
+.PHONY: pipeline.template
+pipeline.template:
 	aws cloudformation deploy \
 		--capabilities CAPABILITY_IAM \
 		--stack-name ${STACK_PREFIX}-pipeline \
