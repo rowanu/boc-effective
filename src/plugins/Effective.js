@@ -13,7 +13,7 @@ const expand = (sourceActions, allActions) => {
   let actions = []
   sourceActions.forEach(s => {
     if (s.includes('*')) {
-      const pattern = s.replace('*', '.*')
+      const pattern = s.replaceAll('*', '.*')
       const matchedActions = allActions.filter(
         a => !a.search(new RegExp(`^${pattern}$`, 'i'))
       )
@@ -32,7 +32,7 @@ const invert = (sourceActions, allActions) => {
   let actions = []
   sourceActions.forEach(s => {
     if (s.includes('*')) {
-      const pattern = s.replace('*', '.*')
+      const pattern = s.replaceAll('*', '.*')
       const matchedActions = allActions.filter(
         a => !a.match(new RegExp(`^${pattern}$`, 'i'))
       )
